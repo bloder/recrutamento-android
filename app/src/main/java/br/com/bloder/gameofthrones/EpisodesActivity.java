@@ -1,5 +1,6 @@
 package br.com.bloder.gameofthrones;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +24,11 @@ public class EpisodesActivity extends AppCompatActivity {
 
   @ViewById protected RecyclerView episodes;
   @ViewById protected TextView rating;
+  private ProgressDialog loadingDialog;
+
 
   @AfterViews protected void afterViews() {
+    showLoadingDialog();
     fetchEpisodes();
   }
 
@@ -36,8 +40,26 @@ public class EpisodesActivity extends AppCompatActivity {
   }
 
   @UiThread protected void showEpisodes(List<Episode> episodes, Rating rating) {
+    verifyLoadDialog();
     this.episodes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     this.episodes.setAdapter(new EpisodeAdapter(getApplicationContext(), episodes));
     this.rating.setText(String.valueOf(rating.rating).substring(0, 3));
+  }
+
+  private void showLoadingDialog() {
+    loadingDialog = new ProgressDialog(this);
+    loadingDialog.setMessage(getString(R.string.loading_content));
+    loadingDialog.setCancelable(false);
+    loadingDialog.setIndeterminate(true);
+    loadingDialog.show();
+  }
+
+  private void verifyLoadDialog(){
+    try {
+      if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
+    } catch (Exception ignored) {
+    } finally {
+      loadingDialog = null;
+    }
   }
 }
