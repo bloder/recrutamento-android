@@ -8,10 +8,10 @@ import br.com.bloder.gameofthrones.repository.resources.RatingRepository;
  * Created by bloder on 04/06/16.
  */
 public class ProductionRepositoryFactory implements RepositoryFactory {
-  
+
   @Override
   public EpisodesRepository forEpisodes() {
-    return null;
+    return new ProductionEpisodesRepository();
   }
 
   @Override
