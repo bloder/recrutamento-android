@@ -2,4 +2,8 @@
     <string name="app_name">GameOfThrones</string>
     <string name="default_rating">0</string>
     <string name="loading_content">Carregando conteúdo</string>
+    <string name="try_again_message">Tentar Novamente</string>
+    <string name="close">Fechar</string>
+    <string name="episode_error_title">Erro</string>
+    <string name="episode_error_message">Não foi possivel carregar a temporada.</string>
 </resources>
