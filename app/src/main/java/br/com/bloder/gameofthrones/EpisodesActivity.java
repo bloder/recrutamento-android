@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -47,6 +48,7 @@ public class EpisodesActivity extends AppCompatActivity {
     this.episodes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     this.episodes.setAdapter(new EpisodeAdapter(getApplicationContext(), episodes));
     this.rating.setText(String.valueOf(rating.rating).substring(0, 3));
+    setupToolbarSettings();
   }
 
   private void showLoadingDialog() {
@@ -92,5 +94,14 @@ public class EpisodesActivity extends AppCompatActivity {
             })
             .setCancelable(false)
             .show();
+  }
+
+  private void setupToolbarSettings() {
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    if (toolbar != null) {
+      setSupportActionBar(toolbar);
+      toolbar.setTitle("Season 1");
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
   }
 }
