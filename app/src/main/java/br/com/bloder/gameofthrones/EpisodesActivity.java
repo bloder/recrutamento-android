@@ -1,6 +1,8 @@
 package br.com.bloder.gameofthrones;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,7 @@ public class EpisodesActivity extends AppCompatActivity {
 
   @UiThread protected void showEpisodes(List<Episode> episodes, Rating rating) {
     verifyLoadDialog();
+    if(canNotLoadSeason(episodes, rating)) return;
     this.episodes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     this.episodes.setAdapter(new EpisodeAdapter(getApplicationContext(), episodes));
     this.rating.setText(String.valueOf(rating.rating).substring(0, 3));
@@ -61,5 +64,33 @@ public class EpisodesActivity extends AppCompatActivity {
     } finally {
       loadingDialog = null;
     }
+  }
+
+  private boolean canNotLoadSeason(List<Episode> episodes, Rating rating) {
+    if((episodes == null || episodes.isEmpty()) || rating == null) {
+      showErrorAndClose();
+      return true;
+    } else {
+      return false;
+    }
+  }
+  private void showErrorAndClose() {
+    new AlertDialog.Builder(this)
+            .setTitle(getString(R.string.episode_error_title))
+            .setMessage(getString(R.string.episode_error_message))
+            .setPositiveButton(getString(R.string.try_again_message), new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                afterViews();
+              }
+            })
+            .setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                finish();
+              }
+            })
+            .setCancelable(false)
+            .show();
   }
 }
