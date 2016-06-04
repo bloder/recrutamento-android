@@ -16,6 +16,6 @@ public class ProductionRepositoryFactory implements RepositoryFactory {
 
   @Override
   public RatingRepository forRating() {
-    return null;
+    return new ProductionRatingRepository();
   }
 }
